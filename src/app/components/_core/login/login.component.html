@@ -8,16 +8,17 @@
   </ng-template>
 
 <form [formGroup]="credentials" (ngSubmit)="signup($event)">
-  <input formControlName="email" type="email" placeholder="Your email" autocomplete="off">
+  <input formControlName="charId" type="text" placeholder="Your character" autocomplete="off">
   <input formControlName="password" type="password" placeholder="Your password" autocomplete="off">
 <button type="submit">Sign up</button>
 </form>
 
 <form [formGroup]="credentials" (ngSubmit)="login($event)">
-  <input formControlName="email" type="email" placeholder="Your email">
+  <input formControlName="charId" type="text" placeholder="Your character">
   <input formControlName="password" type="password" placeholder="Your password">
 <button type="submit">Log in</button>
 </form>
 
+{{ _authguard.allowed }}
 
 <button (click)="logout()">Salir</button>

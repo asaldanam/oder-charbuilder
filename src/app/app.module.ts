@@ -10,26 +10,42 @@ import { AngularFireStorageModule } from 'angularfire2/storage';
 import { AngularFireAuthModule } from 'angularfire2/auth';
 
 import { AppComponent } from './app.component';
-import { ExampleComponent } from './components/example/example.component';
 import { FirebaseService } from './services/firebase.service';
-import { LoginComponent } from './components/login/login.component';
+import { LoginComponent } from './components/_core/login/login.component';
 import { AuthService } from './services/auth.service';
-import { AuthGuard } from './core/auth.guard';
+import { AuthGuardService } from './services/auth-guard.service';
+import { CharacterComponent } from './components/character/character.component';
+import { CharacterService } from './services/character.service';
+import { HttpModule } from '@angular/http';
+
 
 //Routes
 const appRoutes: Routes = [
-  { path: 'login', component: LoginComponent, data: {title: 'login'}},
-  { path: 'example', component: ExampleComponent, data: {title: 'example'}},
-  { path: '**', pathMatch: 'full', redirectTo: 'login' }
+  {
+    path: 'login',
+    component: LoginComponent,
+    data: {title: 'login'}
+  },
+  { 
+    path: 'character',
+    component: CharacterComponent,
+    data: {title: 'character'},
+    canActivate: [AuthGuardService]
+  },
+  { path: '**',
+    pathMatch: 'full',
+    redirectTo: 'login'
+  }
 ];
 
 @NgModule({
   declarations: [
     AppComponent,
-    ExampleComponent,
-    LoginComponent
+    LoginComponent,
+    CharacterComponent
   ],
   imports: [
+    HttpModule,
     BrowserModule,
     RouterModule.forRoot(
       appRoutes,
@@ -43,8 +59,9 @@ const appRoutes: Routes = [
   ],
   providers: [
     FirebaseService,
-    AuthGuard,
-    AuthService
+    AuthService,
+    AuthGuardService,
+    CharacterService
   ],
   bootstrap: [AppComponent]
 })

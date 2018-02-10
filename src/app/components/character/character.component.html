@@ -1,0 +1,8 @@
+<p>
+  character works!
+</p>
+
+<img src="{{ _character.armoryImg }}" alt="" width="500">
+
+<p>{{ (_character.character | async)?.name }}</p>
+<p>{{ _character.characterLoading }}</p>
