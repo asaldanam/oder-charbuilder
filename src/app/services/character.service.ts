@@ -28,12 +28,12 @@ export class CharacterService {
   {
   }
 
-  newCharacter(charId) {
-    console.log('new character');
-    this.afs.collection(this.collection).doc(charId).set({
-      name: 'Anarel'
-    });
-  }
+  // newCharacter(charId) {
+  //   console.log('new character');
+  //   this.afs.collection(this.collection).doc(charId).set({
+  //     name: 'Anarel'
+  //   });
+  // }
 
   authCharacter() {
     this.characterLoading = 'loading';

@@ -1,0 +1,11 @@
+<p>
+  char-list works!
+</p>
+
+<ul> 
+  <li *ngFor="let character of _user.characters | async">
+    {{character.name}}
+  </li>
+</ul>
+
+<button [routerLink]="['/new-character']">New character</button>

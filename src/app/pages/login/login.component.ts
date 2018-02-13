@@ -3,11 +3,11 @@ import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/take';
 
 import { Component, OnInit } from '@angular/core';
-import { AuthService } from '../../../services/auth.service';
+import { AuthService } from '../../services/auth.service';
 import { FormBuilder, Validators } from '@angular/forms';
 import { AngularFireAuth } from 'angularfire2/auth';
 import * as firebase from 'firebase/app';
-import { AuthGuardService } from '../../../services/auth-guard.service';
+import { AuthGuardService } from '../../services/auth-guard.service';
 
 @Component({
   selector: 'app-login',
@@ -17,7 +17,8 @@ import { AuthGuardService } from '../../../services/auth-guard.service';
 export class LoginComponent implements OnInit {
 
   public credentials = this.fb.group({
-    charId: ["", Validators.required],
+    email: ["", Validators.required],
+    username: ["", Validators.required],
     password: ["", Validators.required]
   });
 
@@ -30,15 +31,16 @@ export class LoginComponent implements OnInit {
   }
 
   login() {
-    let email = this.credentials.value.charId.toLowerCase() + '@odler.com';
+    let email = this.credentials.value.email.toLowerCase();
     let pass = this.credentials.value.password;
     this._auth.login(email, pass);
   }
 
   signup() {
-    let email = this.credentials.value.charId.toLowerCase() + '@odler.com';
+    let email = this.credentials.value.email.toLowerCase();
+    let username = this.credentials.value.username.toLowerCase();
     let pass = this.credentials.value.password;
-    this._auth.signup(email, pass);
+    this._auth.signup(email, pass, username);
   }
   
   logout() {

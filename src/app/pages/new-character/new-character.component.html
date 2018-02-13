@@ -1,0 +1,18 @@
+<p>
+  new-character works!
+</p>
+
+<p *ngIf="loadingCounter == 2">
+  <select name="" (change)="setClass($event.target.value)">
+    <option selected disabled>Clase</option>
+    <option *ngFor="let class of classes" value="{{ class.id }}">{{ class.name }}</option>
+  </select>
+</p>
+
+<p *ngIf="loadingCounter == 2">
+  <select name="" (change)="setSpec($event.target.value)">
+    <option selected disabled>Especialización</option>
+    <option *ngFor="let spec of filterSpecs" value="{{ spec.id }}">{{ spec.name }}</option>
+  </select>
+</p>
+

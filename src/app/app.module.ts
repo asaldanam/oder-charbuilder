@@ -1,6 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+
 import { RouterModule, Routes } from '@angular/router';
 
 import { environment } from '../environments/environment';
@@ -11,38 +12,41 @@ import { AngularFireAuthModule } from 'angularfire2/auth';
 
 import { AppComponent } from './app.component';
 import { FirebaseService } from './services/firebase.service';
-import { LoginComponent } from './components/_core/login/login.component';
+import { LoginComponent } from './pages/login/login.component';
 import { AuthService } from './services/auth.service';
 import { AuthGuardService } from './services/auth-guard.service';
-import { CharacterComponent } from './components/character/character.component';
+import { CharacterComponent } from './pages/character/character.component';
 import { CharacterService } from './services/character.service';
 import { HttpModule } from '@angular/http';
+import { CharListComponent } from './pages/char-list/char-list.component';
+import { UserService } from './services/user.service';
+import { NewCharacterComponent } from './pages/new-character/new-character.component';
+import { ClassesService } from './services/classes.service';
+import { EditorComponent } from './editor/editor.component';
 
 
-//Routes
+// Routes
 const appRoutes: Routes = [
-  {
-    path: 'login',
-    component: LoginComponent,
-    data: {title: 'login'}
-  },
-  { 
-    path: 'character',
-    component: CharacterComponent,
-    data: {title: 'character'},
-    canActivate: [AuthGuardService]
-  },
-  { path: '**',
-    pathMatch: 'full',
-    redirectTo: 'login'
-  }
+  { path: 'login', component: LoginComponent, data: {title: 'login'} },
+  { path: 'character', component: CharacterComponent, data: {title: 'character'}, canActivate: [AuthGuardService] },
+  { path: 'list', component: CharListComponent, data: {title: 'list'}, canActivate: [AuthGuardService] },
+  { path: 'list', component: CharListComponent, data: {title: 'list'}, canActivate: [AuthGuardService] },
+  { path: 'new-character', component: NewCharacterComponent, data: {title: 'new-character'}, canActivate: [AuthGuardService] },
+  { path: 'editor', component: EditorComponent, data: {title: 'editor'}, canActivate: [AuthGuardService] },
+  // { path: '**',
+  //   pathMatch: 'full',
+  //   redirectTo: 'login'
+  // }
 ];
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
-    CharacterComponent
+    CharacterComponent,
+    CharListComponent,
+    NewCharacterComponent,
+    EditorComponent
   ],
   imports: [
     HttpModule,
@@ -52,6 +56,7 @@ const appRoutes: Routes = [
       // { enableTracing: true }
     ),
     ReactiveFormsModule,
+    FormsModule,
     AngularFireModule.initializeApp(environment.firebase),
     AngularFirestoreModule, // imports firebase/firestore, only needed for database features
     AngularFireAuthModule, // imports firebase/auth, only needed for auth features,
@@ -61,7 +66,9 @@ const appRoutes: Routes = [
     FirebaseService,
     AuthService,
     AuthGuardService,
-    CharacterService
+    CharacterService,
+    UserService,
+    ClassesService
   ],
   bootstrap: [AppComponent]
 })
