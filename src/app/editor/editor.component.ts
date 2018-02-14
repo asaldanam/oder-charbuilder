@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AngularFirestore } from 'angularfire2/firestore';
 import * as data from './datafiles/data.datafile'
+import { Character } from '../classes/character';
 
 @Component({
   selector: 'app-editor',
@@ -16,10 +17,10 @@ export class EditorComponent implements OnInit {
   ) { }
 
   runScript() {
-    let config = data.realms;
+    let config = data.specs;
     for (let i = 0; i < config.items.length; i++) {
-      console.log(config.items[i].name);
-      this.afs.collection(config.collection).doc(config.items[i].id).set(config.items[i]);  
+      console.log(config.items[i].spec);
+      this.afs.collection(config.collection).doc(config.items[i].spec).set(config.items[i]);  
     }
   }
 

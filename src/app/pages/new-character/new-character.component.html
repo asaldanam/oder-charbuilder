@@ -1,18 +1,38 @@
-<p>
-  new-character works!
-</p>
 
-<p *ngIf="loadingCounter == 2">
-  <select name="" (change)="setClass($event.target.value)">
-    <option selected disabled>Clase</option>
-    <option *ngFor="let class of classes" value="{{ class.id }}">{{ class.name }}</option>
-  </select>
-</p>
+<div *ngIf="loadClass && loadSpecs">
 
-<p *ngIf="loadingCounter == 2">
-  <select name="" (change)="setSpec($event.target.value)">
-    <option selected disabled>Especialización</option>
-    <option *ngFor="let spec of filterSpecs" value="{{ spec.id }}">{{ spec.name }}</option>
-  </select>
-</p>
+  <div class="container mt-4 py-4">
 
+    <div class="row">
+      <div class="form-group col-md-8 offset-md-2">
+        <label>Clase</label>
+        <select class="form-control custom-select" (change)="setClass($event.target.value)">
+          <option selected disabled>-----</option>
+          <option *ngFor="let class of classes" value="{{ class.id }}">{{ class.name }}</option>
+        </select>
+      </div>          
+    </div>
+
+    <div class="row">
+      <div class="form-group col-md-8 offset-md-2">
+        <label>Especialización</label>
+        <select class="form-control custom-select" (change)="setSpec($event.target.value)">
+          <option selected disabled>-----</option>
+          <option *ngFor="let spec of filterSpecs" value="{{ spec.id }}">{{ spec.name }}</option>
+        </select>
+      </div>          
+    </div>
+
+    <button (click)="upAttribute('str')">Subir str</button>
+    {{ character.attributes.str }}
+    <button (click)="downAttribute('str')">Bajar str</button>
+
+    <button (click)="upAttribute('int')">Subir int</button>
+    {{ character.attributes.int }}
+    <button (click)="downAttribute('int')">Bajar int</button>
+    <button (click)="showChar()">Personaje</button>
+    {{ maxAttPoints }}
+    
+  </div>
+
+</div>
