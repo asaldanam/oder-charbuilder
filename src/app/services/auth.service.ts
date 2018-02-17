@@ -16,19 +16,25 @@ export class AuthService {
   ) {
   }
 
-  login(email:string, password:string) {
-    this.afAuth.auth.signInAndRetrieveDataWithEmailAndPassword(email, password)
-    .then(() => {
-      console.log('login ok');
-      this.router.navigate(['/list']);
-    })
+  login(email: string, password: string) {
+    this.afAuth.auth.setPersistence(firebase.auth.Auth.Persistence.SESSION).then(() => {
+      this.afAuth.auth.signInAndRetrieveDataWithEmailAndPassword(email, password)
+      .then(() => {
+          console.log('login ok');
+          this.router.navigate(['/list']);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+      }
+    )
     .catch((error) => {
       console.log(error);
       return false;
     });
   }
 
-  signup(email:string, password:string, username:string) {
+  signup(email: string, password: string, username: string) {
     this.afAuth.auth.createUserAndRetrieveDataWithEmailAndPassword(email, password)
       .then(() => {
         console.log('registro ok');

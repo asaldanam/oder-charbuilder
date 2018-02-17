@@ -14,16 +14,15 @@ export class NewCharacterComponent implements OnInit {
   private loadClass = false;
   private loadSpecs = false;
 
-  private classCollection:string = 'classes';
-  private specsCollection:string = 'specs';
+  private classCollection = 'classes';
+  private specsCollection = 'specs';
 
-  private classes:any;
-  private specs:any;
-  
-  private filterSpecs:any;
-  private maxAttPoints:number = 10;
+  private classes: any;
+  private specs: any;
+  private filterSpecs: any;
+  private maxAttPoints = 10;
 
-  private character:Character =  {
+  private character: Character =  {
     id: '',
     wowName: '',
     realmId: '',
@@ -64,32 +63,32 @@ export class NewCharacterComponent implements OnInit {
     hasSpells: true,
     spells: 0
   };
-  
 
   constructor(
     private afs: AngularFirestore,
     private _classes: ClassesService
   ) { }
 
-  getData() { 
+  getData() {
     this.classes = this.afs.collection(this.classCollection).valueChanges().subscribe(
       resp => {
         this.classes = resp;
         this.loadClass = true;
         console.log(this.classes);
       }
-    )
+    );
     this.specs = this.afs.collection(this.specsCollection).valueChanges().subscribe(
       resp => {
         this.specs = resp;
         this.loadSpecs = true;
-        console.log(this.specs);     
+        console.log(this.specs);
       }
-    )
+    );
   }
 
   setClass(value) {
-    this.filterSpecs = this.classes.filter((item) => {return (item.id==value);})[0].specs; //hace una query buscando la clase dada y luego saca sus specss
+    this.filterSpecs = this.classes.filter((item) => {
+      return (item.id === value); })[0].specs; // hace una query buscando la clase dada y luego saca sus specss
     console.log(this.filterSpecs);
   }
 
@@ -97,32 +96,51 @@ export class NewCharacterComponent implements OnInit {
     console.log(value);
     this.afs.collection(this.specsCollection).doc(value).valueChanges()
       .subscribe(
-        (resp:Character) => {
+        (resp: Character) => {
           this.character = resp;
           console.log(this.character);
         }
-    )
+    );
+  }
+
+  setRace( ) {
+
   }
 
   upAttribute(attribute) {
-    for(let i in this.character.attributes) {
-      if (i == attribute && this.character.attributes[i] < 4 && this.maxAttPoints != 0) {
+    for (const i in this.character.attributes) {
+      if (i === attribute && this.character.attributes[i] < 4 && this.maxAttPoints !== 0) {
         this.character.attributes[i] = this.character.attributes[i] + 1;
-        this.maxAttPoints = this.maxAttPoints - 1;
-        // console.log(this.character.attributes[i]);
-        // console.log('max ' + this.maxAttPoints);
+        // logica especifica para el priest
+        if (
+          attribute === 'pur'
+          && this.character.class === 'priest'
+          && this.character.attributes.pur <= 0
+          && this.character.attributes.pur > -4
+        ) {
+          this.maxAttPoints = this.maxAttPoints + 1;
+        } else {
+          this.maxAttPoints = this.maxAttPoints - 1;
+        }
       }
     }
   }
 
   downAttribute(attribute) {
-    for(let i in this.character.attributes) {
-      if (i == attribute && this.maxAttPoints != 10) {
+    for (const i in this.character.attributes) {
+      if (i === attribute && this.maxAttPoints !== 10 && this.character.attributes[i] > 0) {
         this.character.attributes[i] = this.character.attributes[i] - 1;
         this.maxAttPoints = this.maxAttPoints + 1;
-        // console.log(this.character.attributes[i]);
-        // console.log('max ' + this.maxAttPoints);
       }
+    }
+    // logica especifica para el priest
+    if (attribute === 'pur' 
+        && this.maxAttPoints !== 0
+        && this.character.attributes.pur <= 0
+        && this.character.attributes.pur > -4 
+        && this.character.class === 'priest') {
+      this.character.attributes.pur = this.character.attributes.pur - 1;
+      this.maxAttPoints = this.maxAttPoints - 1;
     }
   }
 
@@ -131,7 +149,7 @@ export class NewCharacterComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.getData()
+    this.getData();
   }
 
 }

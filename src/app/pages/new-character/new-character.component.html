@@ -23,14 +23,37 @@
       </div>          
     </div>
 
-    <button (click)="upAttribute('str')">Subir str</button>
-    {{ character.attributes.str }}
-    <button (click)="downAttribute('str')">Bajar str</button>
+    <div class="row">
+      <div class="form-group col-md-8 offset-md-2">
+        <label>Raza</label>
+        <select class="form-control custom-select" (change)="setSpec($event.target.value)">
+          <option selected disabled>-----</option>
+          <option *ngFor="let spec of filterSpecs" value="{{ spec.id }}">{{ spec.name }}</option>
+        </select>
+      </div>          
+    </div>
 
-    <button (click)="upAttribute('int')">Subir int</button>
-    {{ character.attributes.int }}
-    <button (click)="downAttribute('int')">Bajar int</button>
+    <div>
+      <button (click)="upAttribute('str')">Subir str</button>
+      {{ character.attributes.str }}
+      <button (click)="downAttribute('str')">Bajar str</button>
+    </div>
+
+    <div>
+      <button (click)="upAttribute('int')">Subir int</button>
+        {{ character.attributes.int }}
+      <button (click)="downAttribute('int')">Bajar int</button>
+    </div>
+
+    <div>
+      <button (click)="upAttribute('pur')">Subir pur</button>
+        {{ character.attributes.pur }}
+      <button (click)="downAttribute('pur')">Bajar pur</button>
+    </div>
+
+    
     <button (click)="showChar()">Personaje</button>
+
     {{ maxAttPoints }}
     
   </div>

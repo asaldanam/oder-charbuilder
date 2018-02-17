@@ -42,7 +42,7 @@ export class LoginComponent implements OnInit {
     let pass = this.credentials.value.password;
     this._auth.signup(email, pass, username);
   }
-  
+
   logout() {
     this.afAuth.auth.signOut();
   }

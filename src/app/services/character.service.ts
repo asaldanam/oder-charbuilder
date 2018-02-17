@@ -6,27 +6,24 @@ import { HttpModule } from '@angular/http/src/http_module';
 import { Http } from '@angular/http';
 
 
-
 @Injectable()
 export class CharacterService {
 
-  private characterLoading:string = 'loading';
-  private character:any;
-  private collection:string = 'characters';
+  private characterLoading = 'loading';
+  private character: any;
+  private collection = 'characters';
 
-  //Armory
-  private armoryUrl:string = 'https://eu.api.battle.net/wow/character/';
-  private armoryRealm:string = 'los-errantes'
-  private armoryCharacter:string = 'Holly';
-  private armoryImg:string;
+  // Armory
+  private armoryUrl = 'https://eu.api.battle.net/wow/character/';
+  private armoryRealm = 'los-errantes';
+  private armoryCharacter = 'Holly';
+  private armoryImg: string;
 
   constructor (
     private afAuth: AngularFireAuth,
-    private afs:AngularFirestore,
-    private jsonp:Http
-  ) 
-  {
-  }
+    private afs: AngularFirestore,
+    private jsonp: Http
+  ) { }
 
   // newCharacter(charId) {
   //   console.log('new character');
@@ -38,11 +35,11 @@ export class CharacterService {
   authCharacter() {
     this.characterLoading = 'loading';
     this.afAuth.authState.subscribe(
-      resp => { 
-        let charId = resp.email;
+      resp => {
+        const charId = resp.email;
         this.getCharacter(charId);
         this.getArmory();
-      })
+      });
   }
 
   getCharacter(charId) {
@@ -52,19 +49,20 @@ export class CharacterService {
         this.characterLoading = 'loaded';
       },
       error => {
-        this.characterLoading = 'loaderror'
+        this.characterLoading = 'loaderror';
       }
-    )
+    );
   }
 
   getArmory() {
-    this.jsonp.get(this.armoryUrl + this.armoryRealm + '/' + this.armoryCharacter + '?locale=en_US&apikey=rcw9mw6t577etcqfe27vjsjzm98frpcs').subscribe(
-      resp => {
-        let img = 'https://render-eu.worldofwarcraft.com/character/' + resp.json().thumbnail;
-        this.armoryImg = img.split(/(-avatar.jpg)/)[0] + '-main.jpg';
-        console.log(this.armoryImg)
-      }
-    )
+    this.jsonp.get(this.armoryUrl + this.armoryRealm + '/' + this.armoryCharacter + '?locale=en_US&apikey=rcw9mw6t577etcqfe27vjsjzm98frpcs')
+      .subscribe(
+        resp => {
+          const img = 'https://render-eu.worldofwarcraft.com/character/' + resp.json().thumbnail;
+          this.armoryImg = img.split(/(-avatar.jpg)/)[0] + '-main.jpg';
+          console.log(this.armoryImg);
+        }
+    );
   }
 
 }
